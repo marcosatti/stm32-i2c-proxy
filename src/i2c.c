@@ -10,7 +10,7 @@ void i2c_init(void)
     I2C_INSTANCE.Instance = I2C_PORT;
     I2C_INSTANCE.Init.ClockSpeed = 400000;
     I2C_INSTANCE.Init.DutyCycle = I2C_DUTYCYCLE_2;
-    I2C_INSTANCE.Init.OwnAddress1 = 0;
+    I2C_INSTANCE.Init.OwnAddress1 = I2C_OWN_ADDRESS;
     I2C_INSTANCE.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
     I2C_INSTANCE.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
     I2C_INSTANCE.Init.OwnAddress2 = 0;

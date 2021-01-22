@@ -20,6 +20,7 @@
 #define I2C_REMAP_ENABLE __HAL_AFIO_REMAP_I2C1_ENABLE
 #define I2C_REMAP_CLK_ENABLE __HAL_RCC_AFIO_CLK_ENABLE
 #define I2C_GPIO_PORT GPIOB
+#define I2C_OWN_ADDRESS (0x20 << 1)
 // No remap pins:
 //#define I2C_GPIO_PINS (GPIO_PIN_6 | GPIO_PIN_7)
 // Remap pins:
