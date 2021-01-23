@@ -1,9 +1,15 @@
-# STM32 I2C Example Project
-STM32 I2C example project using a ssd1306 OLED display.
+# STM32 I2C Proxy
+Demonstration project for using the I2C protocol between 3 devices.
 
-This has been developed to target the STM32F103C8T6 "Blue Pill" MCU, along with a cheap OLED black and white display commonly found on marketplaces ("GM009605v4" on the back).
+This program demonstrates both the usage of the STM32 device becoming a I2C master and slave, using the HAL library.
 
-No portion of this code has been automatically generated - it is completely barebones, with the exception of using the HAL library provided by ST.
+Upon startup, it will drive a ssd1306 display as the I2C bus master, printing a waiting message. It will then pause for 3 seconds, allowing another I2C device to control the bus. If a byte of data is sent to the slave address of this STM32 device during this time, it will then reacquire the bus and drive the ssd1306 display and output the value of the byte. If a byte was not sent while waiting, it will print an error message instead.
+
+There is a slight pause between becoming the I2C bus master / slave in order for voltage levels to stabilize.
+
+You must ensure that there is no I2C device controlling the bus whilst the STM32 device is driving the display, otherwise you may experience problems.
+
+This program was developed alongside the [i2c-proxy](https://github.com/marcosatti/i2c-proxy) Linux Kernel module, and was tested using a BeagleBone Black SBC and a Blue Pill MCU. See that project for more information on the BeagleBone Black side.
 
 ## HAL Config
 After running `make hal_config`, enable the following modules/drivers in the MCU config header file.
@@ -19,14 +25,9 @@ After running `make hal_config`, enable the following modules/drivers in the MCU
 ```
 
 ## Circuit Schematic
-Connect VDD to the 3.3V pin, GND to the ground pin, SCK (SCL) to PIN B8, and SDA to PIN B9.
-You can change the I2C pins through `src/config.h`.
+See [here](https://github.com/marcosatti/stm32-i2c-example) for the project that this is extended off. Follow the same directions as in that. Place the other I2C master on the same SCL / SDA lines. If using a BeagleBone Black, this is pin 19 (SCL) / pin 20 (SDA) on the P9 header.
 
-2 pull-up resistors are needed on the SCL and SDA lines. I used 10K resistors in conjunction with the 3.3V source pin.
-
-(Note there are a few extra wires for the BOOT header pins here that are not required.)
-
-![Schematic](media/schematic.jpg "Schematic")
+By default, this program sets up the STM32 device to receive a byte of data on I2C address 0x20.
 
 ## Prerequisites:
 - [STM32Cube MCU Package](https://www.st.com/en/embedded-software/stm32cube-mcu-mpu-packages.html)
